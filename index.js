@@ -44,15 +44,14 @@ console.log('Choose number 0-9 inclusive')
 let luckyNo = Math.floor(Math.random() * 10) //number between 0-9 inclusive
 const choice = prompt('Choose a number ')
 
-luckyNo = 1
 //Transactions:
 if (choice == luckyNo) {
 	// send 0.25*staking amount to user from Tresury
 	try {
 		const transaction = new Transaction().add(
 			SystemProgram.transfer({
-				from: tresuryPublicKey,
-				to: userPublicKey,
+				fromPubkey: new PublicKey(TresuryPair.publicKey.toString()),
+				toPubkey: new PublicKey(userWallet.publicKey.toString()),
 				lamports: LAMPORTS_PER_SOL * 0.25 * stakingAmt,
 			})
 		)
@@ -71,8 +70,8 @@ if (choice == luckyNo) {
 	try {
 		const transaction = new Transaction().add(
 			SystemProgram.transfer({
-				from: userWallet.publicKey,
-				to: TresuryPair.publicKey,
+				fromPubkey: new PublicKey(userWallet.publicKey.toString()),
+				toPubkey: new PublicKey(TresuryPair.publicKey.toString()),
 				lamports: LAMPORTS_PER_SOL * stakingAmt,
 			})
 		)
